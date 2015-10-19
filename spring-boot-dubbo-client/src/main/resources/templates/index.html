@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="en-US" xmlns:th="http://www.thymeleaf.org">
-<!--/*@thymesVar id="user" type="java.lang.String"*/-->
+<!--/*@thymesVar id="user" type="org.mvnsearch.uic.User"*/-->
 <head>
     <meta charset="UTF-8"/>
     <title></title>
 </head>
 <body>
 Welcome
-<span th:text="${user}">Customer</span>
+<span th:text="${user.nick}">Customer</span>
 </body>
 </html>
