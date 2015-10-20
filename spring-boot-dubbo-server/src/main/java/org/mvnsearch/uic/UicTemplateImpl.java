@@ -1,5 +1,6 @@
 package org.mvnsearch.uic;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Date;
  * @author linux_china
  */
 @Component(value = "uicTemplate")
+@Service
 public class UicTemplateImpl implements UicTemplate {
     public User findById(Long id) {
         User user = new User();
