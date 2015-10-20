@@ -21,12 +21,13 @@
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
            http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <dubbo:application name="dubbo-uic-provider"  />
+    <dubbo:application name="dubbo-uic-provider"/>
 
-    <dubbo:registry address="redis://192.168.99.100:6379" />
+    <dubbo:registry address="redis://192.168.99.100:6379"/>
 
-    <dubbo:protocol name="dubbo" port="20880" />
+    <dubbo:protocol name="dubbo" port="20880"/>
 
-    <dubbo:service interface="org.mvnsearch.uic.UicTemplate" ref="uicTemplate"  />
+    <!--<dubbo:annotation package="org.mvnsearch.uic" />-->
+    <dubbo:service interface="org.mvnsearch.uic.UicTemplate" ref="uicTemplate"/>
 
 </beans>
