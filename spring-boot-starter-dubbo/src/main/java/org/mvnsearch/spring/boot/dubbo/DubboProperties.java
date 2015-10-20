@@ -14,6 +14,7 @@ public class DubboProperties {
     private String app;
     private String registry;
     private String protocol;
+    private String scan;
 
     public String getApp() {
         return app;
@@ -37,5 +38,13 @@ public class DubboProperties {
 
     public void setProtocol(String protocol) {
         this.protocol = protocol;
+    }
+
+    public String getScan() {
+        return scan;
+    }
+
+    public void setScan(String scan) {
+        this.scan = scan;
     }
 }
