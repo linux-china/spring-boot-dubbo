@@ -11,6 +11,7 @@
         <module>uic-service-common</module>
         <module>spring-boot-dubbo-client</module>
         <module>spring-boot-dubbo-server</module>
+        <module>spring-boot-starter-dubbo</module>
     </modules>
 
     <properties>
