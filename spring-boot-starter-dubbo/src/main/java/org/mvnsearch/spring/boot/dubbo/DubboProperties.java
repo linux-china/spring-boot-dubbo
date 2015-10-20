@@ -7,14 +7,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  *
  * @author linux_china
  */
-@ConfigurationProperties(
-        prefix = "spring.dubbo"
-)
+@ConfigurationProperties(prefix = "spring.dubbo")
 public class DubboProperties {
     private String app;
     private String registry;
-    private String protocol;
-    private Integer port;
+    private String protocol = "dubbo";
+    private Integer port = 20800;
     private String scan;
 
     public String getApp() {
