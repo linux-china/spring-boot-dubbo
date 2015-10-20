@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(DubboProperties.class)
 public class DubboAutoConfiguration {
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private DubboProperties properties;
 
