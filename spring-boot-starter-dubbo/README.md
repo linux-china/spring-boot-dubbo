@@ -32,11 +32,11 @@ Spring Boot Start Dubbo
 
 其中org.mvnsearch.uic是Dubbo要扫描的package,根据Dubbo的Service annotation发布服务.
 
-* 在Spring Bean上添加@com.alibaba.dubbo.config.annotation.Service Annotation进行Dubbo服务发布,代码如下:
+* 在Spring Bean上添加@DubboService Annotation进行Dubbo服务发布,代码如下:
 
 
     @Component
-    @com.alibaba.dubbo.config.annotation.Service
+    @DubboService
     public class UicTemplateImpl implements UicTemplate
 
 ### 客户端如何引用Dubbo服务
