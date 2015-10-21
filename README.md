@@ -9,6 +9,6 @@ Spring Boot With Dubbo
 
 ### Spring Boot集成
 
-请参看 spring-boot-starter-dubbo, 
+请参看 [spring-boot-starter-dubbo](https://github.com/linux-china/spring-boot-dubbo/tree/master/spring-boot-starter-dubbo) 
 
 
