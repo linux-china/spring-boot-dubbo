@@ -3,7 +3,6 @@ package org.mvnsearch.spring.boot.dubbo;
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
-import com.alibaba.dubbo.config.spring.AnnotationBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -44,10 +43,4 @@ public class DubboAutoConfiguration {
         return registryConfig;
     }
 
-    @Bean
-    public AnnotationBean dubboAnnotationBean() {
-        AnnotationBean annotationBean = new AnnotationBean();
-        annotationBean.setPackage(properties.getScan());
-        return annotationBean;
-    }
 }
