@@ -13,7 +13,6 @@ public class DubboProperties {
     private String registry;
     private String protocol = "dubbo";
     private Integer port = 20800;
-    private String scan;
 
     public String getApp() {
         return app;
@@ -45,13 +44,5 @@ public class DubboProperties {
 
     public void setPort(Integer port) {
         this.port = port;
-    }
-
-    public String getScan() {
-        return scan;
-    }
-
-    public void setScan(String scan) {
-        this.scan = scan;
     }
 }
