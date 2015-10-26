@@ -4,6 +4,7 @@ import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.config.spring.AnnotationBean;
 import org.springframework.beans.BeansException;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * @author linux_china
  */
 @Configuration
+@ConditionalOnBean(annotation = EnableDubboConfiguration.class)
 @EnableConfigurationProperties(DubboProperties.class)
 public class DubboAnnotationConfiguration implements ApplicationContextAware {
 
