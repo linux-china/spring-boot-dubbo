@@ -41,9 +41,25 @@ Spring Boot Start Dubbo
 
 ### 客户端如何引用Dubbo服务
 
-考虑到客户端的bean引用,目前还是采用传统的Xml声明,bean引用的方式.
+考虑到客户端的bean引用,目前还是采用spring boot配置和传统的Xml声明方式,也就是dubbo的配置是配置的,dubbo beans是xml引用的方式.
 
-* 首先创建 dubbo consumer的配置文件,样例如下:
+* 首先在pom.xml中添加对spring-boot-starter-dubbo的引用
+
+       
+        <dependency>
+            <groupId>org.mvnsearch.spring.boot</groupId>
+            <artifactId>spring-boot-starter-dubbo</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+* 在application.properties文件中添加相关的配置,如下:
+
+
+        spring.dubbo.app = dubbo-uic-consumer
+        spring.dubbo.registry = redis://192.168.99.100:6379
+        spring.dubbo.protocol = dubbo
+        
+* 然后在xml中声明 dubbo consumer beans的配置文件,样例如下:
 
 
        <?xml version="1.0" encoding="UTF-8"?>
@@ -53,10 +69,6 @@ Spring Boot Start Dubbo
               xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
               xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
            http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
-       
-           <dubbo:application name="dubbo-uic-consumer"/>
-       
-           <dubbo:registry address="redis://192.168.99.100:6379"/>
        
            <dubbo:reference id="uicTemplate" interface="org.mvnsearch.uic.UicTemplate" timeout="1000000" />
        
