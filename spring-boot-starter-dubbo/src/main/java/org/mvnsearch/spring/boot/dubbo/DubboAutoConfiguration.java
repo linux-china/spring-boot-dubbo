@@ -43,4 +43,9 @@ public class DubboAutoConfiguration {
         return registryConfig;
     }
 
+    @Bean
+    public DubboEndpoint dubboEndpoint() {
+        return new DubboEndpoint(this.properties);
+    }
+
 }
