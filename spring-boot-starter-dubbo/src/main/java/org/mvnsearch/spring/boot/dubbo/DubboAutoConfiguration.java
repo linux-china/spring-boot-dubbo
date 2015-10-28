@@ -45,7 +45,7 @@ public class DubboAutoConfiguration {
 
     @Bean
     public DubboEndpoint dubboEndpoint() {
-        return new DubboEndpoint(this.properties);
+        return new DubboEndpoint();
     }
 
 }
