@@ -11,7 +11,7 @@ import java.util.Date;
  * @author linux_china
  */
 @Component
-@DubboService
+@DubboService(interfaceClass = UicTemplate.class)
 public class UicTemplateImpl implements UicTemplate {
     public User findById(Long id) {
         User user = new User();
