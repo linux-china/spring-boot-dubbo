@@ -1,6 +1,7 @@
 package org.mvnsearch.spring.boot.dubbo;
 
 import com.alibaba.dubbo.config.annotation.DubboService;
+import com.alibaba.dubbo.config.spring.schema.DubboBeanDefinitionParser;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.AbstractEndpoint;
@@ -36,6 +37,19 @@ public class DubboEndpoint extends AbstractEndpoint implements ApplicationContex
 
     public Object invoke() {
         Map<String, Object> info = new HashMap<String, Object>();
+        Boolean serverMode = false;
+        String[] beanNames = applicationContext.getBeanNamesForAnnotation(EnableDubboConfiguration.class);
+        if (beanNames != null && beanNames.length > 0) {
+            serverMode = true;
+        }
+        if (serverMode) {
+            info.put("server", true);
+            info.put("port", dubboProperties.getPort());
+        }
+        info.put("app", dubboProperties.getApp());
+        info.put("registry", dubboProperties.getRegistry());
+        info.put("protocol", dubboProperties.getProtocol());
+        //published services
         List<String> publishedInterfaceList = new ArrayList<String>();
         Map<String, Object> dubboBeans = applicationContext.getBeansWithAnnotation(DubboService.class);
         for (Map.Entry<String, Object> entry : dubboBeans.entrySet()) {
@@ -51,7 +65,20 @@ public class DubboEndpoint extends AbstractEndpoint implements ApplicationContex
                 publishedInterfaceList.add(interfaceClassCanonicalName);
             }
         }
-        info.put("interfaceClasses", publishedInterfaceList);
+        for (Map.Entry<String, String> entry : DubboBeanDefinitionParser.serviceBeanList.entrySet()) {
+            publishedInterfaceList.add(entry.getValue());
+        }
+        if (!publishedInterfaceList.isEmpty()) {
+            info.put("publishedInterfaces", publishedInterfaceList);
+        }
+        //subscribed services
+        List<String> subscribedInterfaceList = new ArrayList<String>();
+        for (Map.Entry<String, String> entry : DubboBeanDefinitionParser.referenceBeanList.entrySet()) {
+            subscribedInterfaceList.add(entry.getValue());
+        }
+        if (!subscribedInterfaceList.isEmpty()) {
+            info.put("subscribedInterfaces", subscribedInterfaceList);
+        }
         return info;
     }
 }
