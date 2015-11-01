@@ -44,6 +44,11 @@ public class DubboAutoConfiguration {
     }
 
     @Bean
+    public DubboHealthIndicator dubboHealthIndicator() {
+        return new DubboHealthIndicator();
+    }
+
+    @Bean
     public DubboEndpoint dubboEndpoint() {
         return new DubboEndpoint();
     }
