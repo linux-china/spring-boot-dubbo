@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,7 @@ public class DubboAutoConfiguration {
     private DubboProperties properties;
 
     @Bean
+    @ConditionalOnMissingBean
     public ApplicationConfig dubboApplicationConfig() {
         ApplicationConfig appConfig = new ApplicationConfig();
         appConfig.setName(properties.getApp());
@@ -28,6 +30,7 @@ public class DubboAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public ProtocolConfig dubboProtocolConfig() {
         ProtocolConfig protocolConfig = new ProtocolConfig();
         protocolConfig.setName(properties.getProtocol());
@@ -37,6 +40,7 @@ public class DubboAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public RegistryConfig dubboRegistryConfig() {
         RegistryConfig registryConfig = new RegistryConfig();
         registryConfig.setAddress(properties.getRegistry());
