@@ -81,4 +81,13 @@ Spring Boot Start Dubbo
        @ImportResource("/uic-dubbo-consumer.xml")
        public class SpringBootDubboClientApplication
 
-  
+### 其他
+
+* Dubbo Endpint: spring-boot-starter-dubbo提供了/tair的enpoint,通过该url可以快速了解Tair的运行信息
+* health indicator: 对远程服务进行echo service调用进行health检查,通过 /health 进行查看
+
+
+### Todo
+
+* metrics: 客户端和服务端的统计信息,主要是方法调用的统计信息
+* connection: 客户端和服务器端的连接明显信息
