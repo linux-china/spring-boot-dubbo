@@ -23,16 +23,18 @@ public class DubboHealthIndicator implements HealthIndicator, ApplicationContext
     }
 
     public Health health() {
+        Health.Builder builder = Health.up();
         if (!DubboBeanDefinitionParser.referenceBeanList.isEmpty()) {
             try {
                 for (Map.Entry<String, String> entry : DubboBeanDefinitionParser.referenceBeanList.entrySet()) {
                     EchoService echoService = (EchoService) applicationContext.getBean(entry.getKey());
                     echoService.$echo("Hello");
+                    builder.withDetail(entry.getKey(), true);
                 }
             } catch (Exception e) {
                 return Health.down().withDetail("Dubbo", e.getMessage()).build();
             }
         }
-        return Health.up().build();
+        return builder.build();
     }
 }
