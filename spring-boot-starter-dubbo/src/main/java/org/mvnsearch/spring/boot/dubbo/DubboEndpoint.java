@@ -58,9 +58,8 @@ public class DubboEndpoint extends AbstractEndpoint implements ApplicationContex
             Class<?> interfaceClass = bean.getClass().getAnnotation(DubboService.class).interfaceClass();
             String interfaceClassCanonicalName = interfaceClass.getCanonicalName();
             if (!interfaceClassCanonicalName.equals("void")) {
-                Method[] methods = interfaceClass.getMethods();
                 List<String> methodNames = new ArrayList<String>();
-                for (Method method : methods) {
+                for (Method method : interfaceClass.getMethods()) {
                     methodNames.add(method.getName());
                 }
                 publishedInterfaceList.put(interfaceClassCanonicalName, methodNames);
@@ -70,12 +69,22 @@ public class DubboEndpoint extends AbstractEndpoint implements ApplicationContex
             info.put("publishedInterfaces", publishedInterfaceList);
         }
         //subscribed services
-        List<String> subscribedInterfaceList = new ArrayList<String>();
-        for (Map.Entry<String, String> entry : DubboBeanDefinitionParser.referenceBeanList.entrySet()) {
-            subscribedInterfaceList.add(entry.getValue());
-        }
-        if (!subscribedInterfaceList.isEmpty()) {
-            info.put("subscribedInterfaces", subscribedInterfaceList);
+        Map<String, String> referenceBeanList = DubboBeanDefinitionParser.referenceBeanList;
+        if (!referenceBeanList.isEmpty()) {
+            try {
+                Map<String, List<String>> subscribedInterfaceList = new HashMap<String, List<String>>();
+                for (Map.Entry<String, String> entry : referenceBeanList.entrySet()) {
+                    Class clazz = Class.forName(entry.getValue());
+                    ArrayList<String> methodNames = new ArrayList<String>();
+                    for (Method method : clazz.getMethods()) {
+                        methodNames.add(method.getName());
+                    }
+                    subscribedInterfaceList.put(clazz.getCanonicalName(), methodNames);
+                }
+                info.put("subscribedInterfaces", subscribedInterfaceList);
+            } catch (Exception ignore) {
+
+            }
         }
         return info;
     }
