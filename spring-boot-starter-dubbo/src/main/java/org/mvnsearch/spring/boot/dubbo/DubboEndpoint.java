@@ -8,6 +8,7 @@ import org.springframework.boot.actuate.endpoint.AbstractEndpoint;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,23 +51,20 @@ public class DubboEndpoint extends AbstractEndpoint implements ApplicationContex
         info.put("registry", dubboProperties.getRegistry());
         info.put("protocol", dubboProperties.getProtocol());
         //published services
-        List<String> publishedInterfaceList = new ArrayList<String>();
+        Map<String, List<String>> publishedInterfaceList = new HashMap<String, List<String>>();
         Map<String, Object> dubboBeans = applicationContext.getBeansWithAnnotation(DubboService.class);
         for (Map.Entry<String, Object> entry : dubboBeans.entrySet()) {
             Object bean = entry.getValue();
             Class<?> interfaceClass = bean.getClass().getAnnotation(DubboService.class).interfaceClass();
             String interfaceClassCanonicalName = interfaceClass.getCanonicalName();
-            if (interfaceClassCanonicalName.equals("void")) {
-                Class<?>[] interfaces = bean.getClass().getInterfaces();
-                if (interfaces != null && interfaces.length == 1) {
-                    publishedInterfaceList.add(interfaces[0].getCanonicalName());
+            if (!interfaceClassCanonicalName.equals("void")) {
+                Method[] methods = interfaceClass.getMethods();
+                List<String> methodNames = new ArrayList<String>();
+                for (Method method : methods) {
+                    methodNames.add(method.getName());
                 }
-            } else {
-                publishedInterfaceList.add(interfaceClassCanonicalName);
+                publishedInterfaceList.put(interfaceClassCanonicalName, methodNames);
             }
-        }
-        for (Map.Entry<String, String> entry : DubboBeanDefinitionParser.serviceBeanList.entrySet()) {
-            publishedInterfaceList.add(entry.getValue());
         }
         if (!publishedInterfaceList.isEmpty()) {
             info.put("publishedInterfaces", publishedInterfaceList);
