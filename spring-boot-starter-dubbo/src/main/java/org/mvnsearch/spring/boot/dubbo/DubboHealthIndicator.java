@@ -2,6 +2,7 @@ package org.mvnsearch.spring.boot.dubbo;
 
 import com.alibaba.dubbo.config.spring.schema.DubboBeanDefinitionParser;
 import com.alibaba.dubbo.rpc.service.EchoService;
+import org.mvnsearch.spring.boot.dubbo.listener.ConsumerSubscribeListener;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
@@ -24,7 +25,7 @@ public class DubboHealthIndicator implements HealthIndicator, ApplicationContext
 
     public Health health() {
         Health.Builder builder = Health.up();
-        if (!DubboBeanDefinitionParser.referenceBeanList.isEmpty()) {
+        if (!ConsumerSubscribeListener.subscribedInterfaces.isEmpty()) {
             try {
                 for (Map.Entry<String, String> entry : DubboBeanDefinitionParser.referenceBeanList.entrySet()) {
                     EchoService echoService = (EchoService) applicationContext.getBean(entry.getKey());
