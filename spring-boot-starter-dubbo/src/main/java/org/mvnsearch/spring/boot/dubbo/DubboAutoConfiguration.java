@@ -57,4 +57,9 @@ public class DubboAutoConfiguration {
         return new DubboEndpoint();
     }
 
+    @Bean
+    public DubboMetrics dubboConsumerMetrics() {
+        return new DubboMetrics();
+    }
+
 }
