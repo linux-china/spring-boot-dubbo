@@ -1,7 +1,5 @@
 package org.mvnsearch.spring.boot.dubbo;
 
-import com.alibaba.dubbo.config.annotation.DubboService;
-import com.alibaba.dubbo.config.spring.schema.DubboBeanDefinitionParser;
 import org.mvnsearch.spring.boot.dubbo.listener.ConsumerInvokeStaticsFilter;
 import org.mvnsearch.spring.boot.dubbo.listener.ConsumerSubscribeListener;
 import org.mvnsearch.spring.boot.dubbo.listener.ProviderExportListener;
@@ -13,7 +11,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * dubbo endpoint
