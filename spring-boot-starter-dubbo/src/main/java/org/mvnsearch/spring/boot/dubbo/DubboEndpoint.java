@@ -2,6 +2,10 @@ package org.mvnsearch.spring.boot.dubbo;
 
 import com.alibaba.dubbo.config.annotation.DubboService;
 import com.alibaba.dubbo.config.spring.schema.DubboBeanDefinitionParser;
+import org.mvnsearch.spring.boot.dubbo.listener.ConsumerInvokeStaticsFilter;
+import org.mvnsearch.spring.boot.dubbo.listener.ConsumerSubscribeListener;
+import org.mvnsearch.spring.boot.dubbo.listener.ProviderExportListener;
+import org.mvnsearch.spring.boot.dubbo.listener.ProviderInvokeStaticsFilter;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.AbstractEndpoint;
@@ -9,10 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * dubbo endpoint
@@ -51,16 +52,14 @@ public class DubboEndpoint extends AbstractEndpoint implements ApplicationContex
         info.put("registry", dubboProperties.getRegistry());
         info.put("protocol", dubboProperties.getProtocol());
         //published services
-        Map<String, List<String>> publishedInterfaceList = new HashMap<String, List<String>>();
-        Map<String, Object> dubboBeans = applicationContext.getBeansWithAnnotation(DubboService.class);
-        for (Map.Entry<String, Object> entry : dubboBeans.entrySet()) {
-            Object bean = entry.getValue();
-            Class<?> interfaceClass = bean.getClass().getAnnotation(DubboService.class).interfaceClass();
-            String interfaceClassCanonicalName = interfaceClass.getCanonicalName();
+        Map<String, Map<String, Long>> publishedInterfaceList = new HashMap<String, Map<String, Long>>();
+        Set<Class> publishedInterfaces = ProviderExportListener.exportedInterfaces;
+        for (Class clazz : publishedInterfaces) {
+            String interfaceClassCanonicalName = clazz.getCanonicalName();
             if (!interfaceClassCanonicalName.equals("void")) {
-                List<String> methodNames = new ArrayList<String>();
-                for (Method method : interfaceClass.getMethods()) {
-                    methodNames.add(method.getName());
+                Map<String, Long> methodNames = new HashMap<String, Long>();
+                for (Method method : clazz.getMethods()) {
+                    methodNames.put(method.getName(), ProviderInvokeStaticsFilter.getValue(clazz, method.getName()));
                 }
                 publishedInterfaceList.put(interfaceClassCanonicalName, methodNames);
             }
@@ -69,15 +68,14 @@ public class DubboEndpoint extends AbstractEndpoint implements ApplicationContex
             info.put("publishedInterfaces", publishedInterfaceList);
         }
         //subscribed services
-        Map<String, String> referenceBeanList = DubboBeanDefinitionParser.referenceBeanList;
-        if (!referenceBeanList.isEmpty()) {
+        Set<Class> subscribedInterfaces = ConsumerSubscribeListener.subscribedInterfaces;
+        if (!subscribedInterfaces.isEmpty()) {
             try {
-                Map<String, List<String>> subscribedInterfaceList = new HashMap<String, List<String>>();
-                for (Map.Entry<String, String> entry : referenceBeanList.entrySet()) {
-                    Class clazz = Class.forName(entry.getValue());
-                    ArrayList<String> methodNames = new ArrayList<String>();
+                Map<String, Map<String, Long>> subscribedInterfaceList = new HashMap<String, Map<String, Long>>();
+                for (Class clazz : subscribedInterfaces) {
+                    Map<String, Long> methodNames = new HashMap<String, Long>();
                     for (Method method : clazz.getMethods()) {
-                        methodNames.add(method.getName());
+                        methodNames.put(method.getName(), ConsumerInvokeStaticsFilter.getValue(clazz, method.getName()));
                     }
                     subscribedInterfaceList.put(clazz.getCanonicalName(), methodNames);
                 }
