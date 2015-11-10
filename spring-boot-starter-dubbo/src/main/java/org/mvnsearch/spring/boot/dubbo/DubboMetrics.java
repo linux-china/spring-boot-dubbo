@@ -4,6 +4,7 @@ import org.mvnsearch.spring.boot.dubbo.listener.ConsumerInvokeStaticsFilter;
 import org.mvnsearch.spring.boot.dubbo.listener.ProviderInvokeStaticsFilter;
 import org.springframework.boot.actuate.endpoint.PublicMetrics;
 import org.springframework.boot.actuate.metrics.Metric;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -16,6 +17,7 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * @author linux_china
  */
+@Component
 public class DubboMetrics implements PublicMetrics {
     public Collection<Metric<?>> metrics() {
         List<Metric<?>> metrics = new LinkedList<Metric<?>>();

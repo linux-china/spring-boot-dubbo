@@ -7,12 +7,14 @@ import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 /**
  * dubbo health indicator
  *
  * @author linux_china
  */
+@Component
 public class DubboHealthIndicator implements HealthIndicator, ApplicationContextAware {
     private ApplicationContext applicationContext;
 
