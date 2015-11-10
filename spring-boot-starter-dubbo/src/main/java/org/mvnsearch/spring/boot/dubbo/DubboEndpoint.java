@@ -83,6 +83,7 @@ public class DubboEndpoint extends AbstractEndpoint implements ApplicationContex
             } catch (Exception ignore) {
 
             }
+            info.put("connections", ConsumerSubscribeListener.connections);
         }
         return info;
     }
