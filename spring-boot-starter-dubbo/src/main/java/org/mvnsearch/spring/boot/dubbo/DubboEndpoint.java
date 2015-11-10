@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.AbstractEndpoint;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -20,6 +22,7 @@ import java.util.Set;
  *
  * @author linux_china
  */
+@Component
 public class DubboEndpoint extends AbstractEndpoint implements ApplicationContextAware {
     private DubboProperties dubboProperties;
     private ApplicationContext applicationContext;
