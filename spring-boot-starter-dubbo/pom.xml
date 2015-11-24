@@ -11,6 +11,22 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>1.3.0.RELEASE</spring-boot.version>
     </properties>
+    <developers>
+        <developer>
+            <id>linux_china</id>
+            <name>Jacky Chan</name>
+            <email>libing.chen@gmail.com</email>
+            <url>https://twitter.com/linux_china</url>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git@github.com:linux-china/spring-boot-dubbo.git</connection>
+        <developerConnection>scm:git:git@github.com:linux-china/spring-boot-dubbo.git</developerConnection>
+        <url>https://github.com/linux-china/spring-boot-dubbo</url>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
