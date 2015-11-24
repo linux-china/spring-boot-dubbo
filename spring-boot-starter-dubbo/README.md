@@ -86,6 +86,21 @@ Spring Boot Start Dubbo
 * Dubbo Endpint: spring-boot-starter-dubbo提供了/tair的enpoint,通过该url可以快速了解Tair的运行信息
 * health indicator: 对远程服务进行echo service调用进行health检查,通过 /health 进行查看
 
+### 第三方客户端整合
+
+如果你要在第三方客户端,如uic-client,直接整合Dubbo服务对外提供相关的接口,可以使用Spring Boot和Dubbo结合,自动完成auto configuration,
+如spring-boot-starter-uic-client代码中,引入spring-boot-starter-dubbo,然后在UicAutoConfiguration中进行Dubbo服务关联,代码如下:
+
+        @Bean
+        public ReferenceBean uicTemplate() {
+            ReferenceBean<UicTemplate> referenceBean = new ReferenceBean<UicTemplate>();
+            referenceBean.setInterface(UicTemplate.class);
+            referenceBean.setId("uicTemplate");
+            referenceBean.setTimeout(10000);
+            return referenceBean;
+        }
+当然,你可能需要通过自定义properties方式来设置对应的版本号. 这样他人在引入spring-boot-starter-uic-client后就可以直接使用UicTemplate对应的服务啦.
+
 
 ### Todo
 
