@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author linux_china
  */
 @Controller
-public class PortalController {
+public class PortalController  {
     @Autowired
     private UicTemplate uicTemplate;
 
