@@ -94,11 +94,13 @@ Spring Boot Start Dubbo
         @Bean
         public ReferenceBean uicTemplate() {
             ReferenceBean<UicTemplate> referenceBean = new ReferenceBean<UicTemplate>();
-            referenceBean.setInterface(UicTemplate.class);
-            referenceBean.setId("uicTemplate");
+            String canonicalName = interfaceClazz.getCanonicalName();
+            referenceBean.setInterface(canonicalName);
+            referenceBean.setId(canonicalName);
             referenceBean.setTimeout(10000);
             return referenceBean;
         }
+这里一定要使用类的canonicalName方式初始化,主要是解决Dubbo ClassLoader和Spring Boot的class loader问题.
 当然,你可能需要通过自定义properties方式来设置对应的版本号. 这样他人在引入spring-boot-starter-uic-client后就可以直接使用UicTemplate对应的服务啦.
 
 
