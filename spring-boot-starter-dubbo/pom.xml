@@ -67,4 +67,21 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>mvnsearch_nexus</id>
+            <name>mvnsearch nexus Releases</name>
+            <url>http://nexus.mvnsearch.org/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>mvnsearch_nexus</id>
+            <name>mvnsearch nexus Snapshots</name>
+            <url>http://nexus.mvnsearch.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <!-- <repository>
+             <id>bintray</id>
+             <url>https://api.bintray.com/maven/linux-china/maven/org.mvnsearch.ddd.ddd-base</url>
+         </repository>-->
+    </distributionManagement>
 </project>
