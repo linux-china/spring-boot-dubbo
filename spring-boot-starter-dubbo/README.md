@@ -86,6 +86,10 @@ Spring Boot Start Dubbo
 * Dubbo Endpint: spring-boot-starter-dubbo提供了/tair的enpoint,通过该url可以快速了解Tair的运行信息
 * health indicator: 对远程服务进行echo service调用进行health检查,通过 /health 进行查看
 
+### 注意
+
+* 对应Dubbo服务端应用来说,在重新发布应用时需要调用 /dubbo/offline 首先进行应用下线,然后稍后15秒钟后进行发布.
+
 ### 第三方客户端整合
 
 如果你要在第三方客户端,如uic-client,直接整合Dubbo服务对外提供相关的接口,可以使用Spring Boot和Dubbo结合,自动完成auto configuration,
@@ -105,6 +109,3 @@ Spring Boot Start Dubbo
 
 
 ### Todo
-
-* metrics: 客户端和服务端的统计信息,主要是方法调用的统计信息
-* connection: 客户端和服务器端的连接明显信息
