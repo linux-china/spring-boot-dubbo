@@ -36,5 +36,9 @@ public class ProviderExportListener extends ExporterListenerAdapter {
 
     public void unexported(Exporter<?> exporter) {
         exportedInterfaces.remove(exporter.getInvoker().getInterface());
+        URL url = exporter.getInvoker().getUrl();
+        if (!url.getProtocol().equals("injvm")) {
+            exportedUrl.remove(url);
+        }
     }
 }
