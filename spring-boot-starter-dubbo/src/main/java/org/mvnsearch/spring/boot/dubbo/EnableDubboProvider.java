@@ -3,7 +3,7 @@ package org.mvnsearch.spring.boot.dubbo;
 import java.lang.annotation.*;
 
 /**
- * eanble dubbo configuration
+ * eanble dubbo provider
  *
  * @author linux_china
  */
@@ -11,9 +11,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface EnableDubboConfiguration {
-    /**
-     * scan package for dubbo
-     */
-    String value();
+public @interface EnableDubboProvider {
 }
