@@ -1,42 +1,66 @@
 package org.mvnsearch.spring.boot.dubbo;
 
-import com.alibaba.dubbo.config.spring.AnnotationBean;
+import com.alibaba.dubbo.config.*;
+import com.alibaba.dubbo.config.annotation.DubboService;
+import com.alibaba.dubbo.config.spring.ServiceBean;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
+import java.util.Map;
+
 /**
- * dubbo annotation configuration
+ * dubbo provider auto configuration
  *
  * @author linux_china
  */
 @Configuration
-@ConditionalOnBean(annotation = EnableDubboConfiguration.class)
+@ConditionalOnBean(annotation = EnableDubboProvider.class)
 @EnableConfigurationProperties(DubboProperties.class)
 public class DubboAnnotationConfiguration implements ApplicationContextAware {
-
     private ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationConfig applicationConfig;
+    @Autowired
+    private ProtocolConfig protocolConfig;
+    @Autowired
+    private RegistryConfig registryConfig;
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
 
-    @Bean
-    public AnnotationBean dubboAnnotationBean() {
-        String[] beanNames = applicationContext.getBeanNamesForAnnotation(EnableDubboConfiguration.class);
-        if (beanNames != null) {
-            Object entrance = applicationContext.getBean(beanNames[0]);
-            String scanPackage = entrance.getClass().getAnnotation(EnableDubboConfiguration.class).value();
-            if (scanPackage != null) {
-                AnnotationBean annotationBean = new AnnotationBean();
-                annotationBean.setPackage(scanPackage);
-                return annotationBean;
+    @PostConstruct
+    public void init() throws Exception {
+        Map<String, Object> beans = applicationContext.getBeansWithAnnotation(DubboService.class);
+        for (Map.Entry<String, Object> entry : beans.entrySet()) {
+            publishDubboService(entry.getValue());
+        }
+    }
+
+    public void publishDubboService(Object bean) throws Exception {
+        DubboService service = bean.getClass().getAnnotation(DubboService.class);
+        ServiceBean<Object> serviceConfig = new ServiceBean<Object>(service);
+        if (void.class.equals(service.interfaceClass())
+                && "".equals(service.interfaceName())) {
+            if (bean.getClass().getInterfaces().length > 0) {
+                serviceConfig.setInterface(bean.getClass().getInterfaces()[0]);
+            } else {
+                throw new IllegalStateException("Failed to export remote service class " + bean.getClass().getName() + ", cause: The @Service undefined interfaceClass or interfaceName, and the service class unimplemented any interfaces.");
             }
         }
-        return null;
+        serviceConfig.setApplicationContext(applicationContext);
+        serviceConfig.setApplication(applicationConfig);
+        serviceConfig.setProtocol(protocolConfig);
+        serviceConfig.setRegistry(registryConfig);
+        serviceConfig.afterPropertiesSet();
+        serviceConfig.setRef(bean);
+        serviceConfig.export();
     }
+
 }
