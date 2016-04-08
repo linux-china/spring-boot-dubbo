@@ -57,11 +57,8 @@ public class DubboEndpoint extends AbstractEndpoint implements ApplicationContex
         info.put("protocol", dubboProperties.getProtocol());
         //published services
         Map<String, Map<String, Long>> publishedInterfaceList = new HashMap<String, Map<String, Long>>();
-        String[] serviceBeans = applicationContext.getBeanNamesForAnnotation(DubboService.class);
-        for (String serviceBean : serviceBeans) {
-            Object bean = applicationContext.getBean(serviceBean);
-            DubboService dubboService = bean.getClass().getAnnotation(DubboService.class);
-            Class<?> clazz = dubboService.interfaceClass();
+        Set<Class> publishedInterfaces = ProviderExportListener.exportedInterfaces;
+        for (Class clazz : publishedInterfaces) {
             String interfaceClassCanonicalName = clazz.getCanonicalName();
             if (!interfaceClassCanonicalName.equals("void")) {
                 Map<String, Long> methodNames = new HashMap<String, Long>();
