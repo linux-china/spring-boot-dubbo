@@ -1,5 +1,6 @@
 package org.mvnsearch.spring.boot.dubbo;
 
+import com.alibaba.dubbo.config.annotation.DubboService;
 import org.mvnsearch.spring.boot.dubbo.listener.ConsumerInvokeStaticsFilter;
 import org.mvnsearch.spring.boot.dubbo.listener.ConsumerSubscribeListener;
 import org.mvnsearch.spring.boot.dubbo.listener.ProviderExportListener;
@@ -10,6 +11,7 @@ import org.springframework.boot.actuate.endpoint.AbstractEndpoint;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -55,8 +57,11 @@ public class DubboEndpoint extends AbstractEndpoint implements ApplicationContex
         info.put("protocol", dubboProperties.getProtocol());
         //published services
         Map<String, Map<String, Long>> publishedInterfaceList = new HashMap<String, Map<String, Long>>();
-        Set<Class> publishedInterfaces = ProviderExportListener.exportedInterfaces;
-        for (Class clazz : publishedInterfaces) {
+        String[] serviceBeans = applicationContext.getBeanNamesForAnnotation(DubboService.class);
+        for (String serviceBean : serviceBeans) {
+            Object bean = applicationContext.getBean(serviceBean);
+            DubboService dubboService = bean.getClass().getAnnotation(DubboService.class);
+            Class<?> clazz = dubboService.interfaceClass();
             String interfaceClassCanonicalName = clazz.getCanonicalName();
             if (!interfaceClassCanonicalName.equals("void")) {
                 Map<String, Long> methodNames = new HashMap<String, Long>();
