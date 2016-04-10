@@ -20,7 +20,7 @@ import java.util.Map;
  * @author linux_china
  */
 @Configuration
-@ConditionalOnBean(annotation = EnableDubboProvider.class)
+@ConditionalOnBean(annotation = EnableDubboConfiguration.class)
 @EnableConfigurationProperties(DubboProperties.class)
 public class DubboAnnotationConfiguration implements ApplicationContextAware {
     private ApplicationContext applicationContext;
