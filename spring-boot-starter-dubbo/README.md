@@ -27,7 +27,7 @@ Spring Boot Start Dubbo
      
      
         @SpringBootApplication
-        @EnableDubboConfiguration("org.mvnsearch.uic")
+        @EnableDubboConfiguration()
         public class SpringBootDubboServerApplication 
 
 其中org.mvnsearch.uic是Dubbo要扫描的package,根据Dubbo的Service annotation发布服务.
@@ -36,7 +36,7 @@ Spring Boot Start Dubbo
 
 
     @Component
-    @DubboService
+    @DubboService(interfaceClass = UicTemplate.class)
     public class UicTemplateImpl implements UicTemplate
 
 ### 客户端如何引用Dubbo服务
