@@ -1,11 +1,11 @@
 package org.mvnsearch.uic;
 
-import org.mvnsearch.spring.boot.dubbo.EnableDubboProvider;
+import org.mvnsearch.spring.boot.dubbo.EnableDubboConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@EnableDubboProvider
+@EnableDubboConfiguration
 public class SpringBootDubboServerApplication {
 
     public static void main(String[] args) {
