@@ -44,7 +44,7 @@ public class DubboEndpoint extends AbstractEndpoint implements ApplicationContex
     public Object invoke() {
         Map<String, Object> info = new HashMap<String, Object>();
         Boolean serverMode = false;
-        String[] beanNames = applicationContext.getBeanNamesForAnnotation(EnableDubboProvider.class);
+        String[] beanNames = applicationContext.getBeanNamesForAnnotation(EnableDubboConfiguration.class);
         if (beanNames != null && beanNames.length > 0) {
             serverMode = true;
         }
