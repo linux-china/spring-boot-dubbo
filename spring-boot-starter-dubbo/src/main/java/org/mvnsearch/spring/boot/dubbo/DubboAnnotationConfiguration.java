@@ -3,6 +3,7 @@ package org.mvnsearch.spring.boot.dubbo;
 import com.alibaba.dubbo.config.*;
 import com.alibaba.dubbo.config.annotation.DubboService;
 import com.alibaba.dubbo.config.spring.ServiceBean;
+import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -19,6 +20,7 @@ import java.util.Map;
  *
  * @author linux_china
  */
+@SuppressWarnings("SpringJavaAutowiringInspection")
 @Configuration
 @ConditionalOnBean(annotation = EnableDubboConfiguration.class)
 @EnableConfigurationProperties(DubboProperties.class)
@@ -45,6 +47,9 @@ public class DubboAnnotationConfiguration implements ApplicationContextAware {
 
     public void publishDubboService(Object bean) throws Exception {
         DubboService service = bean.getClass().getAnnotation(DubboService.class);
+        if (service == null) {
+            service = AopProxyUtils.ultimateTargetClass(bean).getAnnotation(DubboService.class);
+        }
         ServiceBean<Object> serviceConfig = new ServiceBean<Object>(service);
         if (void.class.equals(service.interfaceClass())
                 && "".equals(service.interfaceName())) {
