@@ -1,9 +1,10 @@
 package org.mvnsearch.spring.boot.dubbo;
 
-import com.alibaba.dubbo.config.*;
+import com.alibaba.dubbo.config.ApplicationConfig;
+import com.alibaba.dubbo.config.ProtocolConfig;
+import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.config.annotation.DubboService;
 import com.alibaba.dubbo.config.spring.ServiceBean;
-import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -41,15 +42,12 @@ public class DubboAnnotationConfiguration implements ApplicationContextAware {
     public void init() throws Exception {
         Map<String, Object> beans = applicationContext.getBeansWithAnnotation(DubboService.class);
         for (Map.Entry<String, Object> entry : beans.entrySet()) {
-            publishDubboService(entry.getValue());
+            publishDubboService(entry.getKey(), entry.getValue());
         }
     }
 
-    public void publishDubboService(Object bean) throws Exception {
-        DubboService service = bean.getClass().getAnnotation(DubboService.class);
-        if (service == null) {
-            service = AopProxyUtils.ultimateTargetClass(bean).getAnnotation(DubboService.class);
-        }
+    public void publishDubboService(String beanName, Object bean) throws Exception {
+        DubboService service = applicationContext.findAnnotationOnBean(beanName, DubboService.class);
         ServiceBean<Object> serviceConfig = new ServiceBean<Object>(service);
         if (void.class.equals(service.interfaceClass())
                 && "".equals(service.interfaceName())) {
