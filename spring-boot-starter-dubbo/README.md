@@ -58,8 +58,21 @@ Spring Boot Start Dubbo
         spring.dubbo.app = dubbo-uic-consumer
         spring.dubbo.registry = redis://192.168.99.100:6379
         spring.dubbo.protocol = dubbo
-        
-* 然后在xml中声明 dubbo consumer beans的配置文件,样例如下:
+     
+* 接下来你只需要创建一个ReferenceBean即可,代码如下。 这个也是Spring Boot推荐的做法。
+
+```
+  @Bean
+    public ReferenceBean<UicTemplate> uicTemplate() {
+        return getConsumerBean(UicTemplate.class, properties.getVersion(), properties.getTimeout());
+    }
+```
+* 如果你不想创建上述的ReferenceBean,你也可以在在要引用的Dubbo Service Interface上添加 @DubboConsumer即可,代码如下:
+```
+   @DubboConsumer
+   private UicTemplate uicTemplate;
+```
+* 最后如果你还想用xml中声明 dubbo consumer beans的配置文件,样例如下:
 
 
        <?xml version="1.0" encoding="UTF-8"?>
@@ -108,4 +121,3 @@ Spring Boot Start Dubbo
 当然,你可能需要通过自定义properties方式来设置对应的版本号. 这样他人在引入spring-boot-starter-uic-client后就可以直接使用UicTemplate对应的服务啦.
 
 
-### Todo
