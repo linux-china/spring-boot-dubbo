@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 org.mvnsearch.spring.boot.dubbo.DubboAutoConfiguration,\
-org.mvnsearch.spring.boot.dubbo.DubboAnnotationConfiguration
+org.mvnsearch.spring.boot.dubbo.DubboProviderAutoConfiguration,\
+org.mvnsearch.spring.boot.dubbo.DubboConsumerAutoConfiguration
