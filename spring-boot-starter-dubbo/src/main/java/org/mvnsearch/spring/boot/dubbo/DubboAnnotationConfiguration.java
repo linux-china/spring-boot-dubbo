@@ -7,6 +7,7 @@ import com.alibaba.dubbo.config.annotation.DubboService;
 import com.alibaba.dubbo.config.spring.ServiceBean;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
@@ -24,6 +25,7 @@ import java.util.Map;
 @SuppressWarnings("SpringJavaAutowiringInspection")
 @Configuration
 @ConditionalOnBean(annotation = EnableDubboConfiguration.class)
+@AutoConfigureAfter(DubboAutoConfiguration.class)
 @EnableConfigurationProperties(DubboProperties.class)
 public class DubboAnnotationConfiguration implements ApplicationContextAware {
     private ApplicationContext applicationContext;
