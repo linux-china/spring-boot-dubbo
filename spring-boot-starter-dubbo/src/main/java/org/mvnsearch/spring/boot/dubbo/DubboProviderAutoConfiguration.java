@@ -27,7 +27,7 @@ import java.util.Map;
 @ConditionalOnBean(annotation = EnableDubboConfiguration.class)
 @AutoConfigureAfter(DubboAutoConfiguration.class)
 @EnableConfigurationProperties(DubboProperties.class)
-public class DubboAnnotationConfiguration implements ApplicationContextAware {
+public class DubboProviderAutoConfiguration implements ApplicationContextAware {
     private ApplicationContext applicationContext;
     @Autowired
     private ApplicationConfig applicationConfig;
