@@ -12,4 +12,8 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface DubboConsumer {
+
+    String version() default "";
+
+    int timeout() default 3000;
 }
