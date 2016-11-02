@@ -18,6 +18,10 @@ public class DubboProperties {
      */
     private String registry;
     /**
+     * dubbo monitor address
+     */
+    private String monitor;
+    /**
      * communication protocol, default is dubbo
      */
     private String protocol = "dubbo";
@@ -44,6 +48,14 @@ public class DubboProperties {
 
     public void setRegistry(String registry) {
         this.registry = registry;
+    }
+
+    public String getMonitor() {
+        return monitor;
+    }
+
+    public void setMonitor(String monitor) {
+        this.monitor = monitor;
     }
 
     public String getProtocol() {
