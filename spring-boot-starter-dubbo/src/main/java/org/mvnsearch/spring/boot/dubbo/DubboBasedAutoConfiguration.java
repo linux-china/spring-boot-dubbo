@@ -18,7 +18,7 @@ public class DubboBasedAutoConfiguration {
      * @param timeout        超时时间
      * @param <T>            服务接口
      * @return reference bean
-     * @throws BeansException
+     * @throws BeansException bean exception
      */
     protected <T> ReferenceBean<T> getConsumerBean(Class<T> interfaceClazz, String version, Integer timeout) throws BeansException {
         ReferenceBean<T> consumerBean = new ReferenceBean<T>();
