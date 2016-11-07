@@ -46,6 +46,7 @@ public class DubboAutoConfiguration {
     public RegistryConfig dubboRegistryConfig() {
         RegistryConfig registryConfig = new RegistryConfig();
         registryConfig.setAddress(properties.getRegistry());
+        registryConfig.setCheck(true);
         return registryConfig;
     }
 
