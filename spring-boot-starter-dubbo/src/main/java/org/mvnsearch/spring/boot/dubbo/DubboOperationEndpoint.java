@@ -2,6 +2,7 @@ package org.mvnsearch.spring.boot.dubbo;
 
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
+import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.registry.Registry;
 import com.alibaba.dubbo.registry.RegistryFactory;
 import org.mvnsearch.spring.boot.dubbo.listener.ProviderExportListener;
@@ -34,18 +35,8 @@ public class DubboOperationEndpoint implements MvcEndpoint {
 
     @RequestMapping("/offline")
     public String offline() {
-        for (URL url : ProviderExportListener.exportedUrl) {
-            registry.unregister(url);
-        }
+        ProtocolConfig.destroyAll();
         return "sucess";
-    }
-
-    @RequestMapping("/online")
-    public String online() {
-        for (URL url : ProviderExportListener.exportedUrl) {
-            registry.register(url);
-        }
-        return "success";
     }
 
     public String getPath() {
