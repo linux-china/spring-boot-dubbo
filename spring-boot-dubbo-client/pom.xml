@@ -8,8 +8,7 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>spring-boot-dubbo-client</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <version>1.0.0-SNAPSHOT</version>
 
     <name>spring-boot-dubbo-client</name>
     <description>Spring Boot project with Dubbo client</description>

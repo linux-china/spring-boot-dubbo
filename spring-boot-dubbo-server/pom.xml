@@ -10,11 +10,10 @@
     </parent>
 
     <artifactId>spring-boot-dubbo-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <version>1.0.0-SNAPSHOT</version>
 
     <name>spring-boot-dubbo-server</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Spring Boot app for dubbo server</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
