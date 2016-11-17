@@ -50,6 +50,14 @@ Spring Boot With Dubbo
 * 启动 SpringBootDubboClientApplication
 * 打开浏览器访问 http://localhost:2080
 
+### 在 Docker 中运行
+
+* 调用docker-compose启动对应的注册中心: docker-compose up -d
+* 编译工程 `mvn clean package -Dmaven.test.skip`
+* 将 server 打包成 docker image : `docker build -t dubbo-demo:latest spring-boot-dubbo-server`
+* 运行 server : `docker run --rm --name=dubbo-demo -p 20890:20880 -e EXPORT_PORT=20890 -e EXPORT_HOST=10.0.1.126 -e ZK_HOST=10.0.1.126 dubbo-demo`
+* 启动 SpringBootDubboClientApplication
+* 打开浏览器访问 http://localhost:2080
 
 ### todo
 

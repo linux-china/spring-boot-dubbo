@@ -30,6 +30,14 @@ public class DubboProperties {
      */
     private Integer port = 20800;
     /**
+     * dubbo export host, useful when running in Docker
+     */
+    private String exportHost;
+    /**
+     * dubbo export port, useful when running in Docker
+     */
+    private Integer exportPort;
+    /**
      * dubbo thread count, default 200
      */
     private Integer threads = 200;
@@ -72,6 +80,22 @@ public class DubboProperties {
 
     public void setPort(Integer port) {
         this.port = port;
+    }
+
+    public String getExportHost() {
+        return exportHost;
+    }
+
+    public void setExportHost(String exportHost) {
+        this.exportHost = exportHost;
+    }
+
+    public Integer getExportPort() {
+        return exportPort;
+    }
+
+    public void setExportPort(Integer exportPort) {
+        this.exportPort = exportPort;
     }
 
     public Integer getThreads() {
