@@ -59,6 +59,21 @@ Spring Boot With Dubbo
 * 启动 SpringBootDubboClientApplication
 * 打开浏览器访问 http://localhost:2080
 
+### Spring DevTools注意事项
+由于Spring DevTools采用不一样的classloader的机制，所以会导致Dubbo Consumer Bean无法赋值到指定的@Component上，请使用以下规则：
+
+在 src/main/resources/META-INF/spring-devtools.properties 在添加以下代码进行DevTools的classloader屏蔽：
+```properties
+restart.exclude.target-classes=/target/classes/
+```
+关于hotspot的模式下，相关Java代码调整后理解生效，可以考虑： http://dcevm.github.io/
+
+如果你的应用是纯Dubbo服务，没有涉及到Web页面，不建议你添加spring-devtools，如果添加了后，
+可以通过以下配置项关闭livereload服务，这样可以保证不必要的live reload服务启动。
+```properties
+spring.devtools.livereload.enabled=false
+```
+
 ### todo
 
 * DubboConsumerBuilder: 快速构建Dubbo Consumer
