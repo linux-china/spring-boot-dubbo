@@ -77,6 +77,7 @@ spring.devtools.livereload.enabled=false
 ### todo
 
 * DubboConsumerBuilder: 快速构建Dubbo Consumer
+* zipkin: https://github.com/jessyZu/dubbo-zipkin-spring-starter
 
 ### Spring Boot集成
 
