@@ -5,7 +5,7 @@ Spring Boot With Dubbo
 ### 注意事项
 
 由于Dubbo的版本并不是特别活跃,加上和Spring Boot的jar包适配等问题,所以请使用最新的Dubbo 3.0.0-SNAPSHOT版本, 目前还有很多工作调整
-地址为: https://github.com/linux-china/dubbo 
+地址为: https://github.com/linux-china/dubbo3 
 
 ### 注册中心(Registry)
 目前主要是支持Redis和ZooKeeper这两个注册中心，主要是这两个服务非常普遍，同时由于Docker的流行，启动这两个服务也非常简单。
@@ -55,7 +55,7 @@ Spring Boot With Dubbo
 * 调用docker-compose启动对应的注册中心: docker-compose up -d
 * 编译工程 `mvn clean package -Dmaven.test.skip`
 * 将 server 打包成 docker image : `docker build -t dubbo-demo:latest spring-boot-dubbo-server`
-* 运行 server : `docker run --rm --name=dubbo-demo -p 20890:20880 -e EXPORT_PORT=20890 -e EXPORT_HOST=10.0.1.126 -e ZK_HOST=10.0.1.126 dubbo-demo`
+* 运行 server (注意修改环境变量) : `docker run --rm --name=dubbo-demo -p 20890:20880 -e EXPORT_PORT=20890 -e EXPORT_HOST=YOUR_HOST_HERE -e ZK_HOST=YOUR_HOST_HERE dubbo-demo`
 * 启动 SpringBootDubboClientApplication
 * 打开浏览器访问 http://localhost:2080
 
