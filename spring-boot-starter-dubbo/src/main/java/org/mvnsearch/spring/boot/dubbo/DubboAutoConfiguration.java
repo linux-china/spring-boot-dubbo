@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 /**
  * dubbo auto configuration
@@ -22,11 +23,16 @@ public class DubboAutoConfiguration {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private DubboProperties properties;
+    @Autowired
+    private Environment env;
 
     @Bean
     @ConditionalOnMissingBean
     public ApplicationConfig dubboApplicationConfig() {
         ApplicationConfig appConfig = new ApplicationConfig();
+        if (properties.getApp() == null || properties.getApp().isEmpty()) {
+            properties.setApp(env.getProperty("spring.application.name"));
+        }
         appConfig.setName(properties.getApp());
         return appConfig;
     }
