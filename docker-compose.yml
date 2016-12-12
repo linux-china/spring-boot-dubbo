@@ -4,12 +4,6 @@ services:
       image: redis
       ports:
         - "6379:6379"
-  zookeeper:
-      image: jplock/zookeeper
-      ports:
-        - "2181:2181"
-        - "2888:2888"
-        - "3888:3888"
   consul:
       image: consul
       ports:
@@ -19,3 +13,9 @@ services:
         - "8400:8400"
         - "8500:8500"
         - "8600:53/udp"
+  zookeeper:
+      image: jplock/zookeeper
+      ports:
+        - "2181:2181"
+        - "2888:2888"
+        - "3888:3888"
