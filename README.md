@@ -8,7 +8,7 @@ Spring Boot With Dubbo
 地址为: https://github.com/linux-china/dubbo3 
 
 ### 注册中心(Registry)
-目前主要是支持Redis、ZooKeeper和Consul这三个注册中心，主要是这两个服务非常普遍，同时由于Docker的流行，启动这两个服务也非常简单。
+目前主要是支持Redis、ZooKeeper和Consul这三个注册中心，主要是这两个服务非常普遍，同时由于Docker的流行，启动这三者个服务也非常简单。
 
 ##### Redis
 使用Redis注册中心，需要将在pom.xml中添加对应的redis客户端，代码如下：
@@ -29,7 +29,7 @@ Spring Boot With Dubbo
      <dependency>
          <groupId>org.apache.curator</groupId>
          <artifactId>curator-framework</artifactId>
-         <version>2.11.1</version>
+         <version>2.12.0</version>
      </dependency>
      <dependency>
          <groupId>com.101tec</groupId>
