@@ -19,11 +19,11 @@ public class ProviderExportListener extends ExporterListenerAdapter {
     /**
      * exported interfaces
      */
-    public static Set<Class> exportedInterfaces = new HashSet<Class>();
+    public static Set<Class> exportedInterfaces = new HashSet<>();
     /**
      * exported urls
      */
-    public static Set<URL> exportedUrl = new HashSet<URL>();
+    public static Set<URL> exportedUrl = new HashSet<>();
 
     public void exported(Exporter<?> exporter) throws RpcException {
         Class<?> anInterface = exporter.getInvoker().getInterface();
