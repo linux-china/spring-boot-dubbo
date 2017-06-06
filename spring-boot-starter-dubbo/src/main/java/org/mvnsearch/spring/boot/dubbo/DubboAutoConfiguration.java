@@ -42,6 +42,7 @@ public class DubboAutoConfiguration {
     public ProtocolConfig dubboProtocolConfig() {
         ProtocolConfig protocolConfig = new ProtocolConfig();
         protocolConfig.setName(properties.getProtocol());
+        protocolConfig.setTransporter(properties.getTransporter());
         protocolConfig.setPort(properties.getPort());
         protocolConfig.setExportHost(properties.getExportHost());
         protocolConfig.setExportPort(properties.getExportPort());
