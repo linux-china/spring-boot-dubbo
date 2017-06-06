@@ -26,6 +26,10 @@ public class DubboProperties {
      */
     private String protocol = "dubbo";
     /**
+     * transporter: netty 3 or netty 4
+     */
+    private String transporter = "netty";
+    /**
      * dubbo listen port, default 20800
      */
     private Integer port = 20800;
@@ -72,6 +76,14 @@ public class DubboProperties {
 
     public void setProtocol(String protocol) {
         this.protocol = protocol;
+    }
+
+    public String getTransporter() {
+        return transporter;
+    }
+
+    public void setTransporter(String transporter) {
+        this.transporter = transporter;
     }
 
     public Integer getPort() {
