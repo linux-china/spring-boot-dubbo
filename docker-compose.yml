@@ -1,11 +1,11 @@
 version: '2'
 services:
   redis:
-      image: redis
+      image: redis:4.0.0-alpine
       ports:
         - "6379:6379"
   consul:
-      image: consul
+      image: consul:0.9.0
       ports:
         - "8300:8300"
         - "8301:8301"
