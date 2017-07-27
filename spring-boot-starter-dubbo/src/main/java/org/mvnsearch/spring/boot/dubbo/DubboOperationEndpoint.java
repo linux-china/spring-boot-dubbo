@@ -24,6 +24,7 @@ public class DubboOperationEndpoint implements MvcEndpoint {
     @Autowired
     private DubboProperties properties;
     private Registry registry;
+    public static Boolean OFFLINE=false;
 
     @PostConstruct
     public void init() {
@@ -36,6 +37,7 @@ public class DubboOperationEndpoint implements MvcEndpoint {
     @RequestMapping("/offline")
     public String offline() {
         ProtocolConfig.destroyAll();
+        OFFLINE = true;
         return "sucess";
     }
 
