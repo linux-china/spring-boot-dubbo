@@ -22,6 +22,10 @@ public class DubboProperties {
      */
     private String monitor;
     /**
+     * http check url
+     */
+    private String httpCheckUrl;
+    /**
      * communication protocol, default is dubbo
      */
     private String protocol = "dubbo";
@@ -68,6 +72,14 @@ public class DubboProperties {
 
     public void setMonitor(String monitor) {
         this.monitor = monitor;
+    }
+
+    public String getHttpCheckUrl() {
+        return httpCheckUrl;
+    }
+
+    public void setHttpCheckUrl(String httpCheckUrl) {
+        this.httpCheckUrl = httpCheckUrl;
     }
 
     public String getProtocol() {
