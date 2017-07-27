@@ -5,7 +5,6 @@ import org.mvnsearch.spring.boot.dubbo.listener.ConsumerSubscribeListener;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health;
-import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -31,7 +30,11 @@ public class DubboHealthIndicator extends AbstractHealthIndicator implements App
                 builder.withDetail(clazz.getCanonicalName(), true);
             }
         }
-        builder.up();
+        if (DubboOperationEndpoint.OFFLINE) {
+            builder.down().withDetail("providers", "offline");
+        } else {
+            builder.up();
+        }
     }
 
 }
