@@ -1,5 +1,6 @@
 package org.mvnsearch.spring.boot.dubbo;
 
+import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
@@ -63,7 +64,7 @@ public class DubboProviderAutoConfiguration implements ApplicationContextAware {
             } else if (serverProperties.getAddress() != null) {
                 managementHost = serverProperties.getAddress().getHostAddress();
             } else {
-                managementHost = InetAddress.getLocalHost().getHostAddress();
+                managementHost = NetUtils.getLocalHost();
             }
             String dubboHTTPCheckURL = schema + managementHost + ":" + managementPort + managementServerProperties.getContextPath() + "/health";
             System.setProperty("DUBBO_HTTP_CHECK_URL", dubboHTTPCheckURL);
