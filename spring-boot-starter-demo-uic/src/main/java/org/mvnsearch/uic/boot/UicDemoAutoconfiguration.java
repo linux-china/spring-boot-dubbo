@@ -19,8 +19,10 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(UicProperties.class)
 @AutoConfigureAfter(DubboAutoConfiguration.class)
 public class UicDemoAutoconfiguration extends DubboBasedAutoConfiguration {
+    private final UicProperties properties;
+
     @Autowired
-    private UicProperties properties;
+    public UicDemoAutoconfiguration(UicProperties properties) {this.properties = properties;}
 
     @Bean
     public ReferenceBean<UicTemplate> uicTemplate() {

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//log4j/log4j Configuration//EN" "log4j.dtd">
+<log4j:configuration>
+    <!--输出到控制台-->
+    <appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+        <param name="Threshold" value="DEBUG"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+        </layout>
+    </appender>
+
+    <!--输出到文件（info）-->
+    <!--将生成“info.log.2014-06-11”这样的日志文件-->
+    <appender name="fileAppenderInfo" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${user.home}/logs/website/info.log" />
+        <param name="DatePattern" value=".yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="INFO" />
+            <param name="LevelMax" value="INFO" />
+        </filter>
+    </appender>
+
+    <!--输出到文件（warn）-->
+    <appender name="fileAppenderWarn" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${user.home}/logs/website/warn.log" />
+        <param name="DatePattern" value=".yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+        </layout>
+
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="WARN" />
+            <param name="LevelMax" value="WARN" />
+        </filter>
+    </appender>
+
+    <!--输出到文件（error）-->
+    <appender name="fileAppenderError" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${user.home}/logs/website/error.log" />
+        <param name="DatePattern" value=".yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="ERROR" />
+            <param name="LevelMax" value="ERROR" />
+        </filter>
+    </appender>
+
+    <!--屏蔽所有org.springframework.*输出的Debug（及以下）信息-->
+    <logger name="org.springframework">
+        <level value="INFO"></level>
+    </logger>
+
+    <root>
+        <level value="ALL"/>
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="fileAppenderInfo" />
+        <appender-ref ref="fileAppenderWarn" />
+        <appender-ref ref="fileAppenderError" />
+    </root>
+</log4j:configuration>

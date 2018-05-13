@@ -28,13 +28,18 @@ import java.util.Map;
 @AutoConfigureAfter(DubboAutoConfiguration.class)
 @EnableConfigurationProperties(DubboProperties.class)
 public class DubboProviderAutoConfiguration implements ApplicationContextAware {
+
     private ApplicationContext applicationContext;
+    private final ApplicationConfig applicationConfig;
+    private final ProtocolConfig protocolConfig;
+    private final RegistryConfig registryConfig;
+
     @Autowired
-    private ApplicationConfig applicationConfig;
-    @Autowired
-    private ProtocolConfig protocolConfig;
-    @Autowired
-    private RegistryConfig registryConfig;
+    public DubboProviderAutoConfiguration(ApplicationConfig applicationConfig, ProtocolConfig protocolConfig, RegistryConfig registryConfig) {
+        this.applicationConfig = applicationConfig;
+        this.protocolConfig = protocolConfig;
+        this.registryConfig = registryConfig;
+    }
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;

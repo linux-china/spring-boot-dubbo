@@ -6,10 +6,8 @@ import com.alibaba.dubbo.registry.Registry;
 import com.alibaba.dubbo.registry.RegistryFactory;
 import org.mvnsearch.spring.boot.dubbo.listener.ProviderExportListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.Endpoint;
-import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
+import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 
 import javax.annotation.PostConstruct;
 
@@ -18,8 +16,8 @@ import javax.annotation.PostConstruct;
  *
  * @author linux_china
  */
-@RestController
-public class DubboOperationEndpoint implements MvcEndpoint {
+@Endpoint(id = "dubbo-online")
+public class DubboOnlineEndpoint {
     @Autowired
     private DubboProperties properties;
     private Registry registry;
@@ -32,15 +30,7 @@ public class DubboOperationEndpoint implements MvcEndpoint {
         registry = registryFactory.getRegistry(url);
     }
 
-    @RequestMapping("/offline")
-    public String offline() {
-        for (URL url : ProviderExportListener.exportedUrl) {
-            registry.unregister(url);
-        }
-        return "sucess";
-    }
-
-    @RequestMapping("/online")
+    @ReadOperation
     public String online() {
         for (URL url : ProviderExportListener.exportedUrl) {
             registry.register(url);
@@ -48,15 +38,4 @@ public class DubboOperationEndpoint implements MvcEndpoint {
         return "success";
     }
 
-    public String getPath() {
-        return "dubbo";
-    }
-
-    public boolean isSensitive() {
-        return false;
-    }
-
-    public Class<? extends Endpoint> getEndpointType() {
-        return null;
-    }
 }

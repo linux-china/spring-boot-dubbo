@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class PortalController  {
+    private final UicTemplate uicTemplate;
+
     @Autowired
-    private UicTemplate uicTemplate;
+    public PortalController(UicTemplate uicTemplate) {this.uicTemplate = uicTemplate;}
 
     @RequestMapping("/")
     public String index(Model model) {

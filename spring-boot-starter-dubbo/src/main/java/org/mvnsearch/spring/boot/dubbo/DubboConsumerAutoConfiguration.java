@@ -1,11 +1,9 @@
 package org.mvnsearch.spring.boot.dubbo;
 
 import com.alibaba.dubbo.config.ApplicationConfig;
-import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.config.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.spring.ReferenceBean;
-import com.fasterxml.jackson.core.Versioned;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +15,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * dubbo consumer auto configuration
@@ -29,12 +27,16 @@ import java.util.Map;
 @Configuration
 @AutoConfigureAfter(DubboAutoConfiguration.class)
 public class DubboConsumerAutoConfiguration extends DubboBasedAutoConfiguration implements ApplicationContextAware {
-    private Map<String, Object> dubboReferences = new HashMap<>();
+    private Map<String, Object> dubboReferences = new ConcurrentHashMap<>();
     private ApplicationContext applicationContext;
+    private final ApplicationConfig applicationConfig;
+    private final RegistryConfig registryConfig;
+
     @Autowired
-    private ApplicationConfig applicationConfig;
-    @Autowired
-    private RegistryConfig registryConfig;
+    public DubboConsumerAutoConfiguration(ApplicationConfig applicationConfig, RegistryConfig registryConfig) {
+        this.applicationConfig = applicationConfig;
+        this.registryConfig = registryConfig;
+    }
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;

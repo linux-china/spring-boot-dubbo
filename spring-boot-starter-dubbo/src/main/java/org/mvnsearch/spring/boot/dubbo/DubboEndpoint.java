@@ -1,17 +1,15 @@
 package org.mvnsearch.spring.boot.dubbo;
 
-import com.alibaba.dubbo.config.annotation.DubboService;
 import org.mvnsearch.spring.boot.dubbo.listener.ConsumerInvokeStaticsFilter;
 import org.mvnsearch.spring.boot.dubbo.listener.ConsumerSubscribeListener;
 import org.mvnsearch.spring.boot.dubbo.listener.ProviderExportListener;
 import org.mvnsearch.spring.boot.dubbo.listener.ProviderInvokeStaticsFilter;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.AbstractEndpoint;
+import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
+import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
-import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -23,8 +21,8 @@ import java.util.Set;
  *
  * @author linux_china
  */
-@Component
-public class DubboEndpoint extends AbstractEndpoint implements ApplicationContextAware {
+@Endpoint(id = "dubbo")
+public class DubboEndpoint implements ApplicationContextAware {
     private DubboProperties dubboProperties;
     private ApplicationContext applicationContext;
 
@@ -37,15 +35,14 @@ public class DubboEndpoint extends AbstractEndpoint implements ApplicationContex
         this.dubboProperties = dubboProperties;
     }
 
-    public DubboEndpoint() {
-        super("dubbo", false, true);
-    }
+    public DubboEndpoint() {}
 
-    public Object invoke() {
-        Map<String, Object> info = new HashMap<String, Object>();
+    @ReadOperation
+    public Map<String, Object> dubbo() {
+        Map<String, Object> info = new HashMap<>();
         Boolean serverMode = false;
         String[] beanNames = applicationContext.getBeanNamesForAnnotation(EnableDubboConfiguration.class);
-        if (beanNames != null && beanNames.length > 0) {
+        if (beanNames.length > 0) {
             serverMode = true;
         }
         if (serverMode) {
@@ -55,13 +52,13 @@ public class DubboEndpoint extends AbstractEndpoint implements ApplicationContex
         info.put("app", dubboProperties.getApp());
         info.put("registry", dubboProperties.getRegistry());
         info.put("protocol", dubboProperties.getProtocol());
-        //published services
-        Map<String, Map<String, Long>> publishedInterfaceList = new HashMap<String, Map<String, Long>>();
+        // published services
+        Map<String, Map<String, Long>> publishedInterfaceList = new HashMap<>();
         Set<Class> publishedInterfaces = ProviderExportListener.exportedInterfaces;
         for (Class clazz : publishedInterfaces) {
             String interfaceClassCanonicalName = clazz.getCanonicalName();
             if (!interfaceClassCanonicalName.equals("void")) {
-                Map<String, Long> methodNames = new HashMap<String, Long>();
+                Map<String, Long> methodNames = new HashMap<>();
                 for (Method method : clazz.getMethods()) {
                     methodNames.put(method.getName(), ProviderInvokeStaticsFilter.getValue(clazz, method.getName()));
                 }
@@ -71,13 +68,13 @@ public class DubboEndpoint extends AbstractEndpoint implements ApplicationContex
         if (!publishedInterfaceList.isEmpty()) {
             info.put("publishedInterfaces", publishedInterfaceList);
         }
-        //subscribed services
+        // subscribed services
         Set<Class> subscribedInterfaces = ConsumerSubscribeListener.subscribedInterfaces;
         if (!subscribedInterfaces.isEmpty()) {
             try {
-                Map<String, Map<String, Long>> subscribedInterfaceList = new HashMap<String, Map<String, Long>>();
+                Map<String, Map<String, Long>> subscribedInterfaceList = new HashMap<>();
                 for (Class clazz : subscribedInterfaces) {
-                    Map<String, Long> methodNames = new HashMap<String, Long>();
+                    Map<String, Long> methodNames = new HashMap<>();
                     for (Method method : clazz.getMethods()) {
                         methodNames.put(method.getName(), ConsumerInvokeStaticsFilter.getValue(clazz, method.getName()));
                     }

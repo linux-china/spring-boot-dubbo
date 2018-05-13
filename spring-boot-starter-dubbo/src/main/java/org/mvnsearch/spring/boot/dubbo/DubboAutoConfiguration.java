@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.endpoint.condition.ConditionalOnEnabledEndpoint;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -18,8 +19,10 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(DubboProperties.class)
 public class DubboAutoConfiguration {
     @SuppressWarnings("SpringJavaAutowiringInspection")
+    private final DubboProperties properties;
+
     @Autowired
-    private DubboProperties properties;
+    public DubboAutoConfiguration(DubboProperties properties) {this.properties = properties;}
 
     @Bean
     @ConditionalOnMissingBean
@@ -47,24 +50,32 @@ public class DubboAutoConfiguration {
         return registryConfig;
     }
 
-    @Bean
-    public DubboOperationEndpoint dubboOperationEndpoint() {
-        return new DubboOperationEndpoint();
-    }
 
     @Bean
-    public DubboHealthIndicator dubboHealthIndicator() {
-        return new DubboHealthIndicator();
-    }
-
-    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnEnabledEndpoint
     public DubboEndpoint dubboEndpoint() {
         return new DubboEndpoint();
     }
 
     @Bean
-    public DubboMetrics dubboConsumerMetrics() {
-        return new DubboMetrics();
+    @ConditionalOnMissingBean
+    @ConditionalOnEnabledEndpoint
+    public DubboOfflineEndpoint dubboOfflineEndpoint() {
+        return new DubboOfflineEndpoint();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnEnabledEndpoint
+    public DubboOnlineEndpoint dubboOnlineEndpoint() {
+        return new DubboOnlineEndpoint();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public DubboHealthIndicator dubboHealthIndicator() {
+        return new DubboHealthIndicator();
     }
 
 }
