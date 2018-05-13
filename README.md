@@ -14,3 +14,12 @@ Spring Boot With Dubbo
 ### Todo
 
 1. 升级支持spring-boot 2.0
+
+### Dependencies
+
+    |      versions     | Java | Spring Boot |        Dubbo       |
+    |-------------------|------|-------------|--------------------|
+    | `2.0.0-SNAPSHOT`  | 1.8+ | `2.0.x`     | `3.0.0-SNAPSHOT`   |
+    | `1.0.0-SNAPSHOT`  | 1.7+ | `1.5.x`     | `3.0.0-SNAPSHOT`   |
+
+
