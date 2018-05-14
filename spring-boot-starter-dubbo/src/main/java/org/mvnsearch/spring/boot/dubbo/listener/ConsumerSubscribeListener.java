@@ -15,8 +15,8 @@ import java.util.*;
  */
 @Activate
 public class ConsumerSubscribeListener extends InvokerListenerAdapter {
-    public static Set<Class> subscribedInterfaces = new HashSet<Class>();
-    public static Map<String, Set<String>> connections = new HashMap<String, Set<String>>();
+    public static Set<Class> subscribedInterfaces = new HashSet<>();
+    public static Map<String, Set<String>> connections = new HashMap<>();
 
     @Override
     public void referred(Invoker<?> invoker) throws RpcException {
@@ -24,7 +24,7 @@ public class ConsumerSubscribeListener extends InvokerListenerAdapter {
         subscribedInterfaces.add(subscribeInterface);
         String subscribeInterfaceCanonicalName = subscribeInterface.getCanonicalName();
         if (!connections.containsKey(subscribeInterfaceCanonicalName)) {
-            connections.put(subscribeInterfaceCanonicalName, new HashSet<String>());
+            connections.put(subscribeInterfaceCanonicalName, new HashSet<>());
         }
         connections.get(subscribeInterfaceCanonicalName).add(invoker.getUrl().toString());
     }

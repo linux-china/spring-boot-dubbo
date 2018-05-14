@@ -2,6 +2,7 @@ package org.mvnsearch.spring.boot.dubbo;
 
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
+import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.registry.Registry;
 import com.alibaba.dubbo.registry.RegistryFactory;
 import org.mvnsearch.spring.boot.dubbo.listener.ProviderExportListener;
@@ -21,6 +22,7 @@ public class DubboOfflineEndpoint {
     @Autowired
     private DubboProperties properties;
     private Registry registry;
+    public static Boolean OFFLINE=false;
 
     @PostConstruct
     public void init() {
@@ -32,6 +34,22 @@ public class DubboOfflineEndpoint {
 
     @ReadOperation
     public String offline() {
+        ProtocolConfig.destroyAll();
+        OFFLINE = true;
+        return "sucess";
+    }
+
+    public String getPath() {
+        return "dubbo";
+    }
+
+    public boolean isSensitive() {
+        return false;
+    }
+
+    public Class<? extends Endpoint> getEndpointType() {
+        return null;
+    }
         for (URL url : ProviderExportListener.exportedUrl) {
             registry.unregister(url);
         }

@@ -94,9 +94,13 @@ Spring Boot Start Dubbo
        @ImportResource("/uic-dubbo-consumer.xml")
        public class SpringBootDubboClientApplication
 
+### 优雅上下线
+当我们要重新发布应用时候,我们需要新停掉服务,然后稍等一段时间,等客户端连接全部切换到其他服务器上,这个时候我们才能开始部署服务。这个就是我们称之为优雅下线,
+目前可以通过 http://localhost:8080/dubbo/offline
+
 ### 其他
 
-* Dubbo Endpint: spring-boot-starter-dubbo提供了/tair的enpoint,通过该url可以快速了解Tair的运行信息
+* Dubbo Endpint: spring-boot-starter-dubbo提供了dubbo的enpoint,通过该url可以快速了解Dubbo的运行信息
 * health indicator: 对远程服务进行echo service调用进行health检查,通过 /health 进行查看
 
 ### 注意

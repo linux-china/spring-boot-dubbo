@@ -1,5 +1,6 @@
 package org.mvnsearch.spring.boot.dubbo;
 
+import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
@@ -7,14 +8,18 @@ import com.alibaba.dubbo.config.annotation.DubboService;
 import com.alibaba.dubbo.config.spring.ServiceBean;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.ManagementServerProperties;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
+import java.net.InetAddress;
 import java.util.Map;
 
 /**
@@ -40,6 +45,15 @@ public class DubboProviderAutoConfiguration implements ApplicationContextAware {
         this.protocolConfig = protocolConfig;
         this.registryConfig = registryConfig;
     }
+    private ProtocolConfig protocolConfig;
+    @Autowired
+    private RegistryConfig registryConfig;
+    @Autowired
+    private DubboProperties dubboProperties;
+    @Autowired
+    private ManagementServerProperties managementServerProperties;
+    @Autowired
+    private ServerProperties serverProperties;
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
@@ -47,6 +61,22 @@ public class DubboProviderAutoConfiguration implements ApplicationContextAware {
 
     @PostConstruct
     public void init() throws Exception {
+        if (dubboProperties.getHttpCheckUrl() != null) {
+            System.setProperty("DUBBO_HTTP_CHECK_URL", dubboProperties.getHttpCheckUrl());
+        } else {
+            String schema = managementServerProperties.getSsl() == null ? "http://" : "https://";
+            Integer managementPort = managementServerProperties.getPort() == null ? serverProperties.getPort() : managementServerProperties.getPort();
+            String managementHost;
+            if (managementServerProperties.getAddress() != null) {
+                managementHost = managementServerProperties.getAddress().getHostAddress();
+            } else if (serverProperties.getAddress() != null) {
+                managementHost = serverProperties.getAddress().getHostAddress();
+            } else {
+                managementHost = NetUtils.getLocalHost();
+            }
+            String dubboHTTPCheckURL = schema + managementHost + ":" + managementPort + managementServerProperties.getContextPath() + "/health";
+            System.setProperty("DUBBO_HTTP_CHECK_URL", dubboHTTPCheckURL);
+        }
         Map<String, Object> beans = applicationContext.getBeansWithAnnotation(DubboService.class);
         for (Map.Entry<String, Object> entry : beans.entrySet()) {
             publishDubboService(entry.getKey(), entry.getValue());

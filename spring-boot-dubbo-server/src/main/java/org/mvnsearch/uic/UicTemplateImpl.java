@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * uic template implementation
@@ -19,5 +20,9 @@ public class UicTemplateImpl implements UicTemplate {
         user.setNick("nick:" + id);
         user.setCreatedAt(new Date());
         return user;
+    }
+
+    public Optional<Long> isEmailUnique(String email) {
+        return Optional.of(1L);
     }
 }

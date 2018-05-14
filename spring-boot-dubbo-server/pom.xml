@@ -10,11 +10,10 @@
     </parent>
 
     <artifactId>spring-boot-dubbo-server</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <version>2.0.0-SNAPSHOT</version>
 
     <name>spring-boot-dubbo-server</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Spring Boot app for dubbo server</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -41,8 +40,23 @@
             <version>2.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ecwid.consul</groupId>
+            <artifactId>consul-api</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>2.12.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -57,6 +71,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
+                <configuration>
+                    <executable>true</executable>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

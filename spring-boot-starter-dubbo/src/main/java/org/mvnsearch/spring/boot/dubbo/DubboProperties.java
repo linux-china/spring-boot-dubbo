@@ -18,13 +18,33 @@ public class DubboProperties {
      */
     private String registry;
     /**
+     * dubbo monitor address
+     */
+    private String monitor;
+    /**
+     * http check url
+     */
+    private String httpCheckUrl;
+    /**
      * communication protocol, default is dubbo
      */
     private String protocol = "dubbo";
     /**
+     * transporter: netty 3 or netty 4
+     */
+    private String transporter = "netty";
+    /**
      * dubbo listen port, default 20800
      */
     private Integer port = 20800;
+    /**
+     * dubbo export host, useful when running in Docker
+     */
+    private String exportHost;
+    /**
+     * dubbo export port, useful when running in Docker
+     */
+    private Integer exportPort;
     /**
      * dubbo thread count, default 200
      */
@@ -46,6 +66,22 @@ public class DubboProperties {
         this.registry = registry;
     }
 
+    public String getMonitor() {
+        return monitor;
+    }
+
+    public void setMonitor(String monitor) {
+        this.monitor = monitor;
+    }
+
+    public String getHttpCheckUrl() {
+        return httpCheckUrl;
+    }
+
+    public void setHttpCheckUrl(String httpCheckUrl) {
+        this.httpCheckUrl = httpCheckUrl;
+    }
+
     public String getProtocol() {
         return protocol;
     }
@@ -54,12 +90,36 @@ public class DubboProperties {
         this.protocol = protocol;
     }
 
+    public String getTransporter() {
+        return transporter;
+    }
+
+    public void setTransporter(String transporter) {
+        this.transporter = transporter;
+    }
+
     public Integer getPort() {
         return port;
     }
 
     public void setPort(Integer port) {
         this.port = port;
+    }
+
+    public String getExportHost() {
+        return exportHost;
+    }
+
+    public void setExportHost(String exportHost) {
+        this.exportHost = exportHost;
+    }
+
+    public Integer getExportPort() {
+        return exportPort;
+    }
+
+    public void setExportPort(Integer exportPort) {
+        this.exportPort = exportPort;
     }
 
     public Integer getThreads() {

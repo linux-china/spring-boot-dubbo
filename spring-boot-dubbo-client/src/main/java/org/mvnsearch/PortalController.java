@@ -1,5 +1,6 @@
 package org.mvnsearch;
 
+import org.mvnsearch.uic.AccountManager;
 import org.mvnsearch.uic.UicTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author linux_china
  */
 @Controller
-public class PortalController  {
-    private final UicTemplate uicTemplate;
-
+public class PortalController {
     @Autowired
-    public PortalController(UicTemplate uicTemplate) {this.uicTemplate = uicTemplate;}
+    private UicTemplate uicTemplate;
+    @Autowired
+    private AccountManager accountManager;
 
     @RequestMapping("/")
     public String index(Model model) {

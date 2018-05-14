@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Activate(group = Constants.CONSUMER, order = -110000)
 public class ConsumerInvokeStaticsFilter extends StaticsFilter {
-    public static Map<String, AtomicLong> statics = new ConcurrentHashMap<String, AtomicLong>();
+    public static Map<String, AtomicLong> statics = new ConcurrentHashMap<>();
 
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         increase(invocation.getClass(), invocation.getMethodName());
