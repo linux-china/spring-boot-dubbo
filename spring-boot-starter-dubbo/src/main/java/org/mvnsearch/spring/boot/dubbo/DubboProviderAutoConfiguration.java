@@ -8,7 +8,7 @@ import com.alibaba.dubbo.config.annotation.DubboService;
 import com.alibaba.dubbo.config.spring.ServiceBean;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.autoconfigure.ManagementServerProperties;
+import org.springframework.boot.actuate.autoconfigure.web.server.ManagementServerProperties;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -16,10 +16,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
-import java.net.InetAddress;
 import java.util.Map;
 
 /**
@@ -38,22 +36,20 @@ public class DubboProviderAutoConfiguration implements ApplicationContextAware {
     private final ApplicationConfig applicationConfig;
     private final ProtocolConfig protocolConfig;
     private final RegistryConfig registryConfig;
+    private final DubboProperties dubboProperties;
+    private final ManagementServerProperties managementServerProperties;
+    private final ServerProperties serverProperties;
 
     @Autowired
-    public DubboProviderAutoConfiguration(ApplicationConfig applicationConfig, ProtocolConfig protocolConfig, RegistryConfig registryConfig) {
+    public DubboProviderAutoConfiguration(ApplicationConfig applicationConfig, ProtocolConfig protocolConfig, RegistryConfig registryConfig, DubboProperties dubboProperties, ManagementServerProperties managementServerProperties, ServerProperties serverProperties) {
         this.applicationConfig = applicationConfig;
         this.protocolConfig = protocolConfig;
         this.registryConfig = registryConfig;
+        this.dubboProperties = dubboProperties;
+        this.managementServerProperties = managementServerProperties;
+        this.serverProperties = serverProperties;
     }
-    private ProtocolConfig protocolConfig;
-    @Autowired
-    private RegistryConfig registryConfig;
-    @Autowired
-    private DubboProperties dubboProperties;
-    @Autowired
-    private ManagementServerProperties managementServerProperties;
-    @Autowired
-    private ServerProperties serverProperties;
+
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
@@ -74,7 +70,7 @@ public class DubboProviderAutoConfiguration implements ApplicationContextAware {
             } else {
                 managementHost = NetUtils.getLocalHost();
             }
-            String dubboHTTPCheckURL = schema + managementHost + ":" + managementPort + managementServerProperties.getContextPath() + "/health";
+            String dubboHTTPCheckURL = schema + managementHost + ":" + managementPort + managementServerProperties.getServlet().getContextPath() + "/health";
             System.setProperty("DUBBO_HTTP_CHECK_URL", dubboHTTPCheckURL);
         }
         Map<String, Object> beans = applicationContext.getBeansWithAnnotation(DubboService.class);
@@ -85,7 +81,7 @@ public class DubboProviderAutoConfiguration implements ApplicationContextAware {
 
     public void publishDubboService(String beanName, Object bean) throws Exception {
         DubboService service = applicationContext.findAnnotationOnBean(beanName, DubboService.class);
-        ServiceBean<Object> serviceConfig = new ServiceBean<Object>(service);
+        ServiceBean<Object> serviceConfig = new ServiceBean<>(service);
         if (void.class.equals(service.interfaceClass())
                 && "".equals(service.interfaceName())) {
             if (bean.getClass().getInterfaces().length > 0) {

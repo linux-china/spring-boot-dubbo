@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class PortalController {
+    private final UicTemplate uicTemplate;
+    private final AccountManager accountManager;
+
     @Autowired
-    private UicTemplate uicTemplate;
-    @Autowired
-    private AccountManager accountManager;
+    public PortalController(UicTemplate uicTemplate, AccountManager accountManager) {
+        this.uicTemplate = uicTemplate;
+        this.accountManager = accountManager;
+    }
 
     @RequestMapping("/")
     public String index(Model model) {

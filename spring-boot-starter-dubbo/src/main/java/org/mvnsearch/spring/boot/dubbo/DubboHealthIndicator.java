@@ -30,7 +30,7 @@ public class DubboHealthIndicator extends AbstractHealthIndicator implements App
                 builder.withDetail(clazz.getCanonicalName(), true);
             }
         }
-        if (DubboOperationEndpoint.OFFLINE) {
+        if (DubboOfflineEndpoint.OFFLINE) {
             builder.down().withDetail("providers", "offline");
         } else {
             builder.up();

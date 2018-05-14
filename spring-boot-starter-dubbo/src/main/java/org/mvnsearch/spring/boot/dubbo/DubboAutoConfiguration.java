@@ -21,14 +21,14 @@ import org.springframework.core.env.Environment;
 @Configuration
 @EnableConfigurationProperties(DubboProperties.class)
 public class DubboAutoConfiguration {
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    private final DubboProperties properties;
 
+    private final DubboProperties properties;
+    private final Environment env;
     @Autowired
-    private DubboProperties properties;
-    @Autowired
-    private Environment env;
-    public DubboAutoConfiguration(DubboProperties properties) {this.properties = properties;}
+    public DubboAutoConfiguration(DubboProperties properties, Environment env) {
+        this.properties = properties;
+        this.env = env;
+    }
 
     @Bean
     @ConditionalOnMissingBean
@@ -70,16 +70,6 @@ public class DubboAutoConfiguration {
         MonitorConfig monitorConfig = new MonitorConfig();
         monitorConfig.setAddress(properties.getMonitor());
         return monitorConfig;
-    }
-
-    @Bean
-    public DubboOperationEndpoint dubboOperationEndpoint() {
-        return new DubboOperationEndpoint();
-    }
-
-    @Bean
-    public DubboHealthIndicator dubboHealthIndicator() {
-        return new DubboHealthIndicator();
     }
 
     @Bean
